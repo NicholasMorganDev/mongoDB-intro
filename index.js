@@ -1,13 +1,7 @@
 import { client } from "./mongoConnect.js"
 
 //connect to the client
-client.connect()
-
-//connect to the database or create if their is none
-const database = client.db('products')
-
-//connect to collection or create new if their is none
-const collection = database.collection('fruits')
+//client.connect()
 
 const addFruit = async () => {
   const myFruit = {
@@ -29,8 +23,15 @@ const editFruit = async () => {
 //editFruit()
 
 const getAllFruits = async () => {
-  const allFruits = await collection.find().toArray()
-  console.log(allFruits)
+  try {
+    await client.connect()
+    const allFruits = await collection.find().toArray()
+    console.log(allFruits)
+  } catch (error) {
+    console.log(error)
+  } finally {
+    await client.close()
+  }
 }
 //Can rewrite this line with promises (much longer and technical)
 
@@ -41,11 +42,18 @@ const getAllFruits = async () => {
 //     console.log(allFruits)
 // }
 
-//getAllFruits();
+getAllFruits();
 
 const deleteFruit = async () => {
-  const itemDeleted = await collection.deleteOne({name: 'Pineapple'})
-  console.log(itemDeleted)
+  try {
+    await client.connect()
+    const itemDeleted = await collection.deleteOne({name: 'Pineapple'})
+    console.log(itemDeleted)
+  } catch (error) {
+    console.log(error)
+  } finally {
+    await client.close()
+  }
 }
 
 //deleteFruit()
