@@ -1,11 +1,4 @@
-import { credentials } from "./credentials.js"
-const mongoURI = credentials
-
-import { MongoClient } from "mongodb"
-import { get } from "http"
-
-//create new instance of Mongo
-const client = new MongoClient(mongoURI) //use the URI pathway
+import { client } from "./mongoConnect.js"
 
 //connect to the client
 client.connect()
@@ -39,6 +32,14 @@ const getAllFruits = async () => {
   const allFruits = await collection.find().toArray()
   console.log(allFruits)
 }
+//Can rewrite this line with promises (much longer and technical)
+
+// const getAllFruits = () => {
+//   collection.find().toArray()
+//     .then(items => console.log(items))
+//     .catch(console.log)
+//     console.log(allFruits)
+// }
 
 //getAllFruits();
 
